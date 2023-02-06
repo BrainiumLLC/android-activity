@@ -14,7 +14,7 @@ dependencies = [
  "log",
  "ndk",
  "ndk-context",
- "ndk-sys 0.4.1+23.1.7779620",
+ "ndk-sys",
  "num_enum",
 ]
 
@@ -88,7 +88,7 @@ source = "git+https://github.com/BrainiumLLC/ndk#e25d1e252a96c8083ff77eb7854d4ee
 dependencies = [
  "bitflags",
  "jni-sys",
- "ndk-sys 0.4.0+25.0.8775105",
+ "ndk-sys",
  "num_enum",
  "raw-window-handle 0.3.4",
  "thiserror",
@@ -104,15 +104,6 @@ checksum = "27b02d87554356db9e9a873add8782d4ea6e3e58ea071a9adb9a2e8ddb884a8b"
 name = "ndk-sys"
 version = "0.4.0+25.0.8775105"
 source = "git+https://github.com/BrainiumLLC/ndk#e25d1e252a96c8083ff77eb7854d4eecc295e7bb"
-dependencies = [
- "jni-sys",
-]
-
-[[package]]
-name = "ndk-sys"
-version = "0.4.1+23.1.7779620"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3cf2aae958bd232cac5069850591667ad422d263686d75b52a065f9badeee5a3"
 dependencies = [
  "jni-sys",
 ]

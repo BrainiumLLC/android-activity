@@ -25,7 +25,7 @@ native-activity = []
 log = "0.4"
 jni-sys = "0.3"
 ndk = { git = "https://github.com/BrainiumLLC/ndk" }
-ndk-sys = "0.4"
+ndk-sys = { git = "https://github.com/BrainiumLLC/ndk" }
 ndk-context = "0.1"
 android-properties = "0.2"
 num_enum = "0.5"
