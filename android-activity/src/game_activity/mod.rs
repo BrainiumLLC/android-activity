@@ -604,6 +604,8 @@ extern "Rust" {
 // by android_native_app_glue.
 #[no_mangle]
 pub unsafe extern "C" fn _rust_glue_entry(app: *mut ffi::android_app) {
+    println!("Android entry point: _rust_glue_entry");
+
     abort_on_panic(|| {
         // Maybe make this stdout/stderr redirection an optional / opt-in feature?...
         let mut logpipe: [RawFd; 2] = Default::default();
