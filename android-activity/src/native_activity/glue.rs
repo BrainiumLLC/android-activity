@@ -814,7 +814,9 @@ extern "C" fn ANativeActivity_onCreate(
     saved_state_size: libc::size_t,
 ) {
     println!("Android entry point: ANativeActivity_onCreate");
-    native_activity_on_create(activity, saved_state, saved_state_size);
+    unsafe {
+        native_activity_on_create(activity, saved_state, saved_state_size);
+    }
 
     abort_on_panic(|| {
         // Maybe make this stdout/stderr redirection an optional / opt-in feature?...
