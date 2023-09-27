@@ -582,6 +582,11 @@ impl WaitableNativeActivityState {
 
 extern "Rust" {
     pub fn android_main(app: AndroidApp);
+    pub fn native_activity_on_create(
+        activity: *mut ndk_sys::ANativeActivity,
+        saved_state: *const libc::c_void,
+        saved_state_size: libc::size_t,
+    );
 }
 
 fn android_log(level: Level, tag: &CStr, msg: &CStr) {
@@ -738,6 +743,8 @@ extern "C" fn ANativeActivity_onCreate(
     saved_state: *const libc::c_void,
     saved_state_size: libc::size_t,
 ) {
+    native_activity_on_create(activity, saved_state, saved_state_size);
+
     // Maybe make this stdout/stderr redirection an optional / opt-in feature?...
     unsafe {
         let mut logpipe: [RawFd; 2] = Default::default();
