@@ -610,7 +610,7 @@ impl WaitableNativeActivityState {
 extern "Rust" {
     pub fn android_main(app: AndroidApp);
     pub fn native_activity_on_create(
-        activity: *mut ndk_sys::ANativeActivity,
+        activity: *mut libc::c_void,
         saved_state: *const libc::c_void,
         saved_state_size: libc::size_t,
     );
@@ -815,7 +815,7 @@ extern "C" fn ANativeActivity_onCreate(
 ) {
     println!("Android entry point: ANativeActivity_onCreate");
     unsafe {
-        native_activity_on_create(activity, saved_state, saved_state_size);
+        native_activity_on_create(activity as _, saved_state, saved_state_size);
     }
 
     abort_on_panic(|| {
