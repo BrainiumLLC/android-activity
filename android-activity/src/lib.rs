@@ -156,6 +156,7 @@ impl From<ndk_sys::ARect> for Rect {
     }
 }
 
+pub use activity_impl::OnCreateState;
 pub use activity_impl::StateLoader;
 pub use activity_impl::StateSaver;
 
@@ -466,6 +467,10 @@ impl Hash for AndroidApp {
 impl AndroidApp {
     pub fn native_activity(&self) -> *const ndk_sys::ANativeActivity {
         self.inner.read().unwrap().native_activity()
+    }
+
+    pub fn on_create_state(&self) -> OnCreateState {
+        self.inner.read().unwrap().on_create_state
     }
 
     /// Queries the current [`NativeWindow`] for the application.

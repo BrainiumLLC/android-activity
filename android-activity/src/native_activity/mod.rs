@@ -78,13 +78,14 @@ impl AndroidAppWaker {
 }
 
 impl AndroidApp {
-    pub(crate) fn new(native_activity: NativeActivityGlue) -> Self {
+    pub(crate) fn new(native_activity: NativeActivityGlue, state: OnCreateState) -> Self {
         let app = Self {
             inner: Arc::new(RwLock::new(AndroidAppInner {
                 native_activity,
                 looper: Looper {
                     ptr: ptr::null_mut(),
                 },
+                state,
             })),
         };
 

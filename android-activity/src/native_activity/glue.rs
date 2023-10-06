@@ -877,17 +877,16 @@ extern "C" fn ANativeActivity_onCreate(
                 jvm
             };
 
-            let app = AndroidApp::new(rust_glue.clone());
+            let state = OnCreateState {
+                activity,
+                saved_state,
+                save_state_size,
+            };
+            let app = AndroidApp::new(rust_glue.clone(), state);
 
             rust_glue.notify_main_thread_running();
 
             unsafe {
-                let state = OnCreateState {
-                    activity,
-                    saved_state,
-                    save_state_size,
-                };
-
                 // XXX: If we were in control of the Java Activity subclass then
                 // we could potentially run the android_main function via a Java native method
                 // springboard (e.g. call an Activity subclass method that calls a jni native
@@ -896,7 +895,7 @@ extern "C" fn ANativeActivity_onCreate(
                 // when calling FindClass to lookup a suitable classLoader, instead of
                 // defaulting to the system loader. Without this then it's difficult for native
                 // code to look up non-standard Java classes.
-                android_main(app, state);
+                android_main(app);
 
                 if let Some(detach_current_thread) = (*(*jvm)).DetachCurrentThread {
                     detach_current_thread(jvm);
