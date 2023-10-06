@@ -120,6 +120,7 @@ struct Looper {
 unsafe impl Send for Looper {}
 unsafe impl Sync for Looper {}
 
+#[derive(Debug)]
 pub struct OnCreateState {
     activity: *mut ndk_sys::ANativeActivity,
     saved_state: *const libc::c_void,
@@ -130,7 +131,7 @@ pub struct OnCreateState {
 pub(crate) struct AndroidAppInner {
     pub(crate) native_activity: NativeActivityGlue,
     looper: Looper,
-    pub on_create_state: OnCreateState,
+    pub state: OnCreateState,
 }
 
 impl AndroidAppInner {
