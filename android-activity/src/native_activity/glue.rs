@@ -15,7 +15,7 @@ use std::{
 use log::Level;
 use ndk::{configuration::Configuration, input_queue::InputQueue, native_window::NativeWindow};
 
-use crate::{util::abort_on_panic, util::android_log, ConfigurationRef};
+use crate::{util::abort_on_panic, util::android_log, ConfigurationRef, OnCreateState};
 
 use super::{AndroidApp, Rect};
 
@@ -607,12 +607,6 @@ impl WaitableNativeActivityState {
     }
 }
 
-pub struct OnCreateState {
-    activity: *mut libc::c_void,
-    saved_state: *const libc::c_void,
-    saved_state_size: libc::size_t,
-}
-
 extern "Rust" {
     pub fn android_main(app: AndroidApp, state: OnCreateState);
 }
@@ -880,7 +874,7 @@ extern "C" fn ANativeActivity_onCreate(
             let state = OnCreateState {
                 activity,
                 saved_state,
-                save_state_size,
+                saved_state_size,
             };
             let app = AndroidApp::new(rust_glue.clone(), state);
 

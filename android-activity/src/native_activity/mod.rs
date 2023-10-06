@@ -121,7 +121,7 @@ unsafe impl Send for Looper {}
 unsafe impl Sync for Looper {}
 
 pub struct OnCreateState {
-    activity: *mut libc::c_void,
+    activity: *mut ndk_sys::ANativeActivity,
     saved_state: *const libc::c_void,
     saved_state_size: libc::size_t,
 }
