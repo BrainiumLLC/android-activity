@@ -33,7 +33,7 @@ mod ffi;
 pub mod input;
 use input::{Axis, InputEvent, KeyEvent, MotionEvent};
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct OnCreateState {}
 
 // The only time it's safe to update the android_app->savedState pointer is

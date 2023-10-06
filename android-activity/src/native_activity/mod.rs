@@ -120,7 +120,7 @@ struct Looper {
 unsafe impl Send for Looper {}
 unsafe impl Sync for Looper {}
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct OnCreateState {
     activity: *mut ndk_sys::ANativeActivity,
     saved_state: *const libc::c_void,
