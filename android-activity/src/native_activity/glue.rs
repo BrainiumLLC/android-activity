@@ -607,13 +607,14 @@ impl WaitableNativeActivityState {
     }
 }
 
+pub struct OnCreateState {
+    activity: *mut libc::c_void,
+    saved_state: *const libc::c_void,
+    saved_state_size: libc::size_t,
+}
+
 extern "Rust" {
-    pub fn android_main(app: AndroidApp);
-    pub fn native_activity_on_create(
-        activity: *mut libc::c_void,
-        saved_state: *const libc::c_void,
-        saved_state_size: libc::size_t,
-    );
+    pub fn android_main(app: AndroidApp, state: OnCreateState);
 }
 
 unsafe fn try_with_waitable_activity_ref(
@@ -881,7 +882,11 @@ extern "C" fn ANativeActivity_onCreate(
             rust_glue.notify_main_thread_running();
 
             unsafe {
-                native_activity_on_create(activity as _, saved_state as _, saved_state_size);
+                let state = OnCreateState {
+                    activity,
+                    saved_state,
+                    save_state_size,
+                };
 
                 // XXX: If we were in control of the Java Activity subclass then
                 // we could potentially run the android_main function via a Java native method
@@ -891,7 +896,7 @@ extern "C" fn ANativeActivity_onCreate(
                 // when calling FindClass to lookup a suitable classLoader, instead of
                 // defaulting to the system loader. Without this then it's difficult for native
                 // code to look up non-standard Java classes.
-                android_main(app);
+                android_main(app, state);
 
                 if let Some(detach_current_thread) = (*(*jvm)).DetachCurrentThread {
                     detach_current_thread(jvm);
