@@ -813,10 +813,6 @@ extern "C" fn ANativeActivity_onCreate(
     saved_state: *const libc::c_void,
     saved_state_size: libc::size_t,
 ) {
-    let activity_o = activity;
-    let saved_state_o = saved_state;
-    let saved_state_size_o = saved_state_size;
-
     abort_on_panic(|| {
         // Maybe make this stdout/stderr redirection an optional / opt-in feature?...
         unsafe {
@@ -856,10 +852,12 @@ extern "C" fn ANativeActivity_onCreate(
         let rust_glue = jvm_glue.clone();
         // Let us Send the NativeActivity pointer to the Rust main() thread without a wrapper type
         let activity_ptr: libc::intptr_t = activity as _;
+        let saved_state_ptr: libc::intptr_t = saved_state as _;
 
         // Note: we drop the thread handle which will detach the thread
         std::thread::spawn(move || {
             let activity: *mut ndk_sys::ANativeActivity = activity_ptr as *mut _;
+            let saved_state: *const libc::c_void = save_state_ptr as *mut _;
 
             let jvm = unsafe {
                 let na = activity;
@@ -883,7 +881,7 @@ extern "C" fn ANativeActivity_onCreate(
             rust_glue.notify_main_thread_running();
 
             unsafe {
-                native_activity_on_create(activity_o as _, saved_state_o, saved_state_size_o);
+                native_activity_on_create(activity as _, saved_state, saved_state_size);
 
                 // XXX: If we were in control of the Java Activity subclass then
                 // we could potentially run the android_main function via a Java native method
