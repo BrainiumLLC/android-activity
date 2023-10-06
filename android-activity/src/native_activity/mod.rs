@@ -122,9 +122,9 @@ unsafe impl Sync for Looper {}
 
 #[derive(Debug, Copy, Clone)]
 pub struct OnCreateState {
-    activity: *mut ndk_sys::ANativeActivity,
-    saved_state: *const libc::c_void,
-    saved_state_size: libc::size_t,
+    pub activity: *mut ndk_sys::ANativeActivity,
+    pub saved_state: *const libc::c_void,
+    pub saved_state_size: libc::size_t,
 }
 
 #[derive(Debug)]
