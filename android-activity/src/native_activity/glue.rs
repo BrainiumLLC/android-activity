@@ -608,7 +608,7 @@ impl WaitableNativeActivityState {
 }
 
 extern "Rust" {
-    pub fn android_main(app: AndroidApp, state: OnCreateState);
+    pub fn android_main(app: AndroidApp);
 }
 
 unsafe fn try_with_waitable_activity_ref(

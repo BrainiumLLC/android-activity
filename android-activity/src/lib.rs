@@ -470,7 +470,7 @@ impl AndroidApp {
     }
 
     pub fn on_create_state(&self) -> OnCreateState {
-        self.inner.read().unwrap().on_create_state
+        self.inner.read().unwrap().state
     }
 
     /// Queries the current [`NativeWindow`] for the application.
