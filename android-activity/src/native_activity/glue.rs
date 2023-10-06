@@ -813,10 +813,9 @@ extern "C" fn ANativeActivity_onCreate(
     saved_state: *const libc::c_void,
     saved_state_size: libc::size_t,
 ) {
-    println!("Android entry point: ANativeActivity_onCreate");
-    unsafe {
-        native_activity_on_create(activity as _, saved_state, saved_state_size);
-    }
+    let activity_o = activity;
+    let saved_state_o = saved_state;
+    let saved_state_size_o = saved_state_size;
 
     abort_on_panic(|| {
         // Maybe make this stdout/stderr redirection an optional / opt-in feature?...
@@ -884,6 +883,8 @@ extern "C" fn ANativeActivity_onCreate(
             rust_glue.notify_main_thread_running();
 
             unsafe {
+                native_activity_on_create(activity_o as _, saved_state_o, saved_state_size_o);
+
                 // XXX: If we were in control of the Java Activity subclass then
                 // we could potentially run the android_main function via a Java native method
                 // springboard (e.g. call an Activity subclass method that calls a jni native
